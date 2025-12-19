@@ -13,6 +13,9 @@ export const App = () => {
 		if (activeindex !== 6) {
 			setActiveIndex(activeindex + 1);
 		}
+		if (activeindex === 6) {
+			setActiveIndex(0);
+		}
 	};
 
 	const backClick = () => {
@@ -110,9 +113,8 @@ export const App = () => {
 							className={styles.button}
 							onClick={forwardClick}
 							onKeyDown={forwardClick}
-							disabled={flagLastStep}
 						>
-							Далее
+							{flagLastStep ? 'Начать сначала' : 'Далее'}
 						</button>
 					</div>
 				</div>
