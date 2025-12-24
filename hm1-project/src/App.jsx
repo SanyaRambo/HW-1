@@ -16,24 +16,22 @@ function App() {
 		}
 
 		try {
-		if (value.textContent === '=') {
+			if (value.textContent === '=') {
+				const result = Function(`'use strict'; return (${number});`)();
+				setNumber(String(result));
+				return;
+			}
 
-			const result = Function(`'use strict'; return (${number});`)();
-			setNumber(String(result))
+			if (value.textContent === 'С') {
+				setNumber('');
+				return;
+			}
+		} catch {
+			setNumber('Ошибка');
 			return;
 		}
-
-		if (value.textContent === 'С') {
-			setNumber('')
-			return
-		}
-
-	} catch {
-		setNumber('Ошибка')
-		return
-	}
 		setNumber(number + value.textContent);
-	}
+	};
 
 	console.log(number);
 	return (
