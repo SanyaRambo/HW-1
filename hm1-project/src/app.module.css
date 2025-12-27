@@ -5,24 +5,30 @@
 
 }
 
-#root {
-	max-width: 1280px;
-	margin: 0 auto;
-	padding: 2rem;
-	text-align: center;
-
+span {
+	display: flex;
+	justify-content: right;
+	margin: auto;
+	font-size: large;
+	background-color: rgb(54, 54, 54);
+	color: rgb(255, 255, 255);
+	border-radius: 15px;
+	padding-right: 15px;
+	margin-bottom: 10px ;
+	width: 200px;
+	height: 30px;
 }
 
 .calculator {
-	max-width: 400px;
-	max-height: 400px;
-	display: flex;
-	flex-wrap: wrap;
-	text-align: center;
+	margin: auto;
+
+	width: 200px;
+	height: 200px;
 }
 
 .arithmeticOperators {
-	display: flex;
+	display: block;
+	float: inline-end;
 	background-color: rgb(238, 56, 56);
 }
 
@@ -31,24 +37,8 @@
 }
 
 .reset {
+	display: block;
+	float: inline-end;
 	background-color: white;
 	color: black;
-}
-
-.input {
-	width: 385px;
-	height: 60px;
-	font-size: 50px;
-	border-radius: 15px 15px 1px 1px;
-	border-color: rgba(101, 101, 101, 0);
-}
-
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-input[type='number'] {
-	-moz-appearance: textfield;
 }
