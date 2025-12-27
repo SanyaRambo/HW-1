@@ -1,18 +1,28 @@
+:root {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
 #root {
 	max-width: 1280px;
 	margin: 0 auto;
 	padding: 2rem;
 	text-align: center;
+
 }
 
 .calculator {
-	max-width: 1280px;
-	margin: 0 auto;
-	padding: 5px;
+	max-width: 400px;
+	max-height: 400px;
+	display: flex;
+	flex-wrap: wrap;
 	text-align: center;
 }
 
 .arithmeticOperators {
+	display: flex;
 	background-color: rgb(238, 56, 56);
 }
 

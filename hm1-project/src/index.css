@@ -13,12 +13,6 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-	max-width: 1280px;
-	margin: 0 auto;
-	padding: 2rem;
-	text-align: center;
-}
 
 a {
 	font-weight: 500;
@@ -53,6 +47,7 @@ button {
 	cursor: pointer;
 	transition: border-color 0.25s;
 	width: 96.4px;
+	margin: 1vh;
 }
 
 button:hover {
