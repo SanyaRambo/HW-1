@@ -26,6 +26,7 @@ function App() {
 		} else {
 			setOperand2(operand2 + numberButton);
 		}
+		setFlag(false);
 	};
 
 	const hundleOperator = (btnValue) => {
@@ -63,11 +64,7 @@ function App() {
 			setOperand2('');
 			setOperator('');
 			setFlag(true);
-		} else {
-			setFlag(false);
 		}
-
-		console.log('Временный знак', operatorButton, 'Состояние', operator);
 	};
 
 	return (
