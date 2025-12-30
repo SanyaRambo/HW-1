@@ -16,10 +16,12 @@ button {
 	transition: border-color 0.3s ease;
 }
 button:hover {
-	border: 2px solid white;
+	border: 2px solid rgb(82, 82, 82);
+	background-color: rgb(12, 12, 12);
 }
 
 button:focus {
-	border: 2px solid rgb(135, 135, 110);
+	border: 2px solid rgb(138, 138, 138);
 	outline: none;
 }
+
