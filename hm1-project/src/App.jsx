@@ -21,7 +21,7 @@ function App() {
 					<img src={reactLogo} className={`${styles['logo']} ${styles['react']}`} alt="React logo" />
 				</a>
 			</div>
-			< Headlines title={'Приложение'} color={'white'} filter={'drop-shadow(0 0 20px #ffffffff)'}/>
+			<Headlines color={'white'} filter={'drop-shadow(0 0 20px #ffffffff)'}>Приложение:</Headlines>
 			<div>Разная информация о приложении:</div>
 			<User {...user}/>
 

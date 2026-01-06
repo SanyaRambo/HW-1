@@ -5,7 +5,7 @@ export const Contact = ({email, telephone}) => {
 	return (
 		<>
 			<div>
-				< Headlines title={'Контакты'} color={'red'} filter={'drop-shadow(0 0 20px #ff0000)'}/>
+				<Headlines color={'red'} filter={'drop-shadow(0 0 20px #ff0000)'}>Контакты:</Headlines>
 				<div>Почта: {email}</div>
 				<div>Телефон: {telephone}</div>
 			</div>

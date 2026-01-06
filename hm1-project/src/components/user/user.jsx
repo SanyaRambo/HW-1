@@ -6,7 +6,7 @@ export const User = ({name, age, ...contact}) => {
 	return (
 		<>
 		<div className={styles.user}>
-			< Headlines title={'Пользователь'} color={'blue'} filter={'drop-shadow(0 0 20px #5500ffff)'}/>
+			< Headlines color={'blue'} filter={'drop-shadow(0 0 20px #5500ffff)'}>Пользователь:</Headlines>
 			<div>Имя: {name}</div>
 			<div>Возраст: {age}</div>
 		</div>
