@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { User, Headlines } from './components'
 import reactLogo from './react.svg';
 import styles from './app.module.css';
