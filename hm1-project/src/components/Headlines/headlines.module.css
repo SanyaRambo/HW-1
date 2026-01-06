@@ -1,0 +1,31 @@
+.label {
+	text-decoration: underline;
+}
+
+.white {
+	color: white;
+	transition: filter 300ms;
+}
+
+.white:hover {
+	filter: drop-shadow(0 0 20px #ffffff) ;
+}
+
+.blue {
+	color: blue;
+	transition: filter 300ms;
+}
+
+.blue:hover {
+	filter: drop-shadow(0 0 20px #4400ff) ;
+}
+
+.red {
+	color: red;
+	transition: filter 300ms;
+}
+
+.red:hover {
+	filter: drop-shadow(0 0 20px #ff0000) ;
+}
+
