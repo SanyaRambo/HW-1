@@ -1,12 +1,14 @@
 import PropTypes from "prop-types";
-import "./App.css";
+import styles from "./app.module.css";
 
 
-const Product = ({ name, price }) => {
-	return <div>{name} - {price} руб</div>
+export const App = () => {
+	return (
+		<>
+			<h1>Tic Tac Toe!</h1>
+		</>
+	)
 };
 
-Product.propTypes = {
-	name: PropTypes.string,
-	price: PropTypes.number,
-};
+
+export default App
