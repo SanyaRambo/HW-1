@@ -1,0 +1,104 @@
+.field {
+	width: 350px;
+	height: 350px;
+	display: grid;
+	grid-template-columns: repeat(3, 0.1fr);
+	grid-template-rows: repeat(3);
+	justify-content: center;
+	align-content: center;
+	justify-self: center;
+}
+
+.cell {
+	border-radius: 0px;
+	margin: 2px;
+	width: 100px;
+	height: 100px;
+	background-color: rgb(50, 63, 92);
+	border: 1px solid transparent;
+	display: flex;
+}
+
+.buttonX {
+	border: 2px solid transparent;
+}
+
+.buttonZero {
+	 border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.buttonZero:hover {
+	border: 15px solid #000dff;
+}
+
+.buttonX:hover {
+	 border: 15px solid red;
+}
+
+.field > .cell:nth-child(1),
+.field > .cell:nth-child(2),
+.field > .cell:nth-child(3) {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.field > .cell:nth-child(1) {
+	border-top-left-radius: 15px;
+}
+
+.field > .cell:nth-child(3) {
+	border-top-right-radius: 15px;
+}
+
+.field > .cell:nth-child(7) {
+	border-bottom-left-radius: 15px;
+}
+
+.field > .cell:nth-child(9) {
+	border-bottom-right-radius: 15px;
+}
+
+.symbolMotion {
+	font-size: 1.2em;
+	padding-top: 5px;
+	text-align: center;
+	font-size: 6em;
+	color: white;
+}
+
+.x {
+	color: red;
+	text-shadow: 1px 1px 10px rgb(255, 0, 0);
+	will-change: filter;
+	transition:
+		filter 300ms,
+		color 300ms ease;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+
+}
+
+.zero {
+	color: blue;
+	text-shadow: 1px 1px 10px blue;
+	will-change: filter;
+	transition:
+		filter 300ms,
+		color 300ms ease;
+}
+
+button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.winner {
+	background-color: rgb(0, 255, 0);
+	box-shadow: 0px 0px 10px rgb(0, 255, 4);;
+}

@@ -1,0 +1,124 @@
+.textOfField {
+	text-align: center;
+	margin-top: 1px;
+}
+
+.information {
+	display: flex;
+	flex-direction: row;
+	text-align: center;
+	justify-content: center;
+	height: 250px;
+}
+
+h1 {
+	margin-left: 100px;
+	margin-right: 100px;
+	margin-bottom: 1px;
+	margin-top: 20px;
+}
+
+.symbol {
+	font-size: 5em;
+}
+
+.xText {
+	color: rgb(211, 211, 211);
+	will-change: filter;
+	transition:
+		filter 300ms,
+		color 300ms ease;
+}
+
+.xText:hover {
+	filter: drop-shadow(1px 1px 10px rgb(255, 143, 143));
+	color: rgb(216, 216, 254);
+}
+
+h2 {
+	margin: 0px;
+}
+
+h3 {
+	margin-top: 1px;
+}
+
+.motion {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	justify-items: center;
+	height: 20px;
+}
+
+.symbolMotion {
+	font-size: 1.2em;
+	margin-left: 15px;
+	padding-top: 5px;
+	text-align: center;
+	color: white;
+}
+
+.zero {
+	color: blue;
+	text-shadow: 1px 1px 10px blue;
+	will-change: filter;
+	transition:
+		filter 300ms,
+		color 300ms ease;
+}
+.zero:hover {
+	filter: drop-shadow(1px 1px 10px blue);
+	color: rgb(16, 16, 255);
+}
+
+.zeroText {
+	color: rgb(211, 211, 211);
+	will-change: filter;
+	transition:
+		filter 300ms,
+		color 300ms ease;
+}
+
+.zeroText:hover {
+	filter: drop-shadow(1px 1px 10px rgb(163, 172, 255));
+	color: rgb(216, 216, 254);
+}
+
+.x {
+	color: red;
+	text-shadow: 1px 1px 10px rgb(255, 0, 0);
+	will-change: filter;
+	transition:
+		filter 300ms,
+		color 300ms ease;
+}
+
+.x:hover {
+	filter: drop-shadow(1px 1px 10px rgb(255, 12, 12));
+	color: rgb(255, 16, 16);
+}
+
+.restart {
+	margin-top: 60px;
+	height: 100px;
+	background-color: rgb(50, 63, 92);
+	color: rgb(237, 237, 237);
+	font-weight: bolder;
+	font-size: 2em;
+	border-color: transparent;
+	border-radius: 15px;
+}
+
+
+
+
+.restart:hover {
+	border-color: rgb(255, 255, 237);
+}
+
+
+.winner {
+	text-shadow: 1px 1px 15px rgb(0, 255, 68);
+}
