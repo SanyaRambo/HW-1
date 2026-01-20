@@ -1,12 +1,21 @@
 import PropTypes from "prop-types";
-import "./App.css";
+import { useState } from "react"
+import styles from "./app.module.css";
 
 
-const Product = ({ name, price }) => {
-	return <div>{name} - {price} руб</div>
+const App = () => {
+
+	const [value, setValue] = useState('')
+
+	return (
+		<>
+		<h1>Контролируемые и неконтролируемые поля</h1>
+		<div>
+			<input type="text" value={value} onChange={({target}) => setValue(target.value)} className={styles.inputOne} />
+		</div>
+		</>
+	)
 };
 
-Product.propTypes = {
-	name: PropTypes.string,
-	price: PropTypes.number,
-};
+export default App
+
