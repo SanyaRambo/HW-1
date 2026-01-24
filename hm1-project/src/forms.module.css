@@ -1,0 +1,42 @@
+.app {
+	display: flex;
+	width: 300px;
+	height: 300px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	justify-self: center;
+	margin-top: 250px;
+	text-align: center;
+}
+
+.windowOfForms {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.form {
+	width: 250px;
+	height: 30px;
+	font-size: 20px;
+	margin: 5px
+}
+
+.buttonOfForm {
+	width: 200px;
+	height: 30px;
+	font-size: 20px;
+	margin: 5px
+}
+
+.windowOfError {
+	width: 300px;
+	height: 200px;
+}
+
+.error {
+	color: red;
+	font-size: 20px;
+}
