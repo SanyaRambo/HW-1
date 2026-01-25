@@ -1,85 +1,85 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import styles from './forms.module.css';
-import { useStore } from './Hooks';
-import { onChange, onEmailChange } from './Changes';
-import { passwordBlur, passwordReplayBlur, emailBlur } from './onBlur';
+import { registrationFormSchema } from './registration-form-schema';
 import { Field } from './components';
 
 const Forms = () => {
-	const { getState, updateState, statusState } = useStore();
-	const [loginError, setLoginError] = useState(null);
+	const {
+		register,
+		handleSubmit,
+		formState: { isValid, errors },
+	} = useForm({
+		defaultValues: {
+			email: '',
+			password: '',
+			passwordReplay: '',
+		},
+		resolver: yupResolver(registrationFormSchema),
+		mode: 'onTouched',
+	});
+
 	const submitButtonRef = useRef(null);
 
 	const sendFormData = (formData) => {
 		console.log(formData);
 	};
 
-	const onSubmit = (event) => {
-		event.preventDefault();
-		sendFormData(getState());
+	const onSubmit = ({ email, password, passwordReplay }) => {
+		sendFormData({ email, password, passwordReplay });
 	};
 
-	const { email, password, passwordReplay } = getState();
-
-	const flagDisable =
-		loginError === null && statusState(email, password, passwordReplay);
-
 	useEffect(() => {
-		if (flagDisable) {
+		if (isValid) {
 			submitButtonRef.current.focus();
 		}
-	}, [flagDisable]);
+	}, [isValid]);
 
 	return (
 		<>
 			<div className={styles.app}>
-				<form className={styles.windowOfForms} onSubmit={onSubmit}>
+				<form className={styles.windowOfForms} onSubmit={handleSubmit(onSubmit)}>
 					<Field
-						name="email"
 						type="email"
-						value={email}
 						autoComplete="email"
 						placeholder="Почта..."
-						onChange={(event) =>
-							onEmailChange(event, updateState, setLoginError)
-						}
-						onBlur={(event) =>
-							emailBlur(event, setLoginError, password, passwordReplay)
-						}
+						error={errors.email?.message}
+						{...register('email')}
 					/>
 					<Field
-						name="password"
 						type="password"
-						value={password}
 						autoComplete="new-password"
 						placeholder="Пароль..."
-						onChange={(event) => onChange(event, updateState, setLoginError)}
-						onBlur={(event) =>
-							passwordBlur(event, setLoginError, passwordReplay)
-						}
+						error={errors.email?.message}
+						{...register('password')}
 					/>
 					<Field
-						name="passwordReplay"
 						type="password"
-						value={passwordReplay}
 						autoComplete="new-password"
 						placeholder="Повторите пароль..."
-						onChange={(event) => onChange(event, updateState, setLoginError)}
-						onBlur={(event) =>
-							passwordReplayBlur(event, setLoginError, password)
-						}
+						error={errors.passwordReplay?.message}
+						{...register('passwordReplay')}
 					/>
 					<button
 						className={styles.buttonOfForm}
 						type="submit"
-						disabled={!flagDisable}
+						disabled={!isValid}
 						ref={submitButtonRef}
 					>
 						Зарегистрироваться
 					</button>
 				</form>
 				<div className={styles.windowOfError}>
-					{loginError && <p className={styles.error}>{loginError}</p>}
+					{Object.keys(errors).length > 0 && (
+						<ul className={styles.error}>
+							{Object.values(errors).map((error, index) => (
+								<li key={index} className={styles.errorItem}>
+									{error.message}
+								</li>
+							))}
+						</ul>
+					)}
 				</div>
 			</div>
 		</>
