@@ -48,7 +48,7 @@ const Forms = () => {
 						type="password"
 						autoComplete="new-password"
 						placeholder="Пароль..."
-						error={errors.email?.message}
+						error={errors.password?.message}
 						{...register('password')}
 					/>
 					<Field
