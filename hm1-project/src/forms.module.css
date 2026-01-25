@@ -17,18 +17,11 @@
 	justify-content: center;
 }
 
-.form {
-	width: 250px;
-	height: 30px;
-	font-size: 20px;
-	margin: 5px
-}
-
 .buttonOfForm {
 	width: 200px;
 	height: 30px;
 	font-size: 20px;
-	margin: 5px
+	margin: 5px;
 }
 
 .windowOfError {

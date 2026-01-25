@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styles from './forms.module.css';
 import { useStore } from './Hooks';
 import { onChange, onEmailChange } from './Changes';
-import { onBlur } from './onBlur';
+import { passwordBlur, passwordReplayBlur, emailBlur } from './onBlur';
+import { Field } from './components';
 
 const Forms = () => {
 	const { getState, updateState, statusState } = useStore();
 	const [loginError, setLoginError] = useState(null);
+	const submitButtonRef = useRef(null);
 
 	const sendFormData = (formData) => {
 		console.log(formData);
@@ -22,55 +24,56 @@ const Forms = () => {
 	const flagDisable =
 		loginError === null && statusState(email, password, passwordReplay);
 
+	useEffect(() => {
+		if (flagDisable) {
+			submitButtonRef.current.focus();
+		}
+	}, [flagDisable]);
+
 	return (
 		<>
 			<div className={styles.app}>
 				<form className={styles.windowOfForms} onSubmit={onSubmit}>
-					<input
+					<Field
 						name="email"
 						type="email"
 						value={email}
 						autoComplete="email"
-						placeholder="Почта"
-						className={styles.form}
+						placeholder="Почта..."
 						onChange={(event) =>
 							onEmailChange(event, updateState, setLoginError)
 						}
-						onBlur={(event) => onBlur(event, setLoginError)}
+						onBlur={(event) =>
+							emailBlur(event, setLoginError, password, passwordReplay)
+						}
 					/>
-					<input
+					<Field
 						name="password"
 						type="password"
 						value={password}
 						autoComplete="new-password"
-						placeholder="Пароль"
-						className={styles.form}
+						placeholder="Пароль..."
 						onChange={(event) => onChange(event, updateState, setLoginError)}
 						onBlur={(event) =>
-							onBlur(
-								event,
-								setLoginError,
-								password,
-								passwordReplay,
-							)
+							passwordBlur(event, setLoginError, passwordReplay)
 						}
 					/>
-					<input
+					<Field
 						name="passwordReplay"
 						type="password"
 						value={passwordReplay}
 						autoComplete="new-password"
-						placeholder="Повтор пароля"
-						className={styles.form}
+						placeholder="Повторите пароль..."
 						onChange={(event) => onChange(event, updateState, setLoginError)}
 						onBlur={(event) =>
-							onBlur(event, setLoginError, password, passwordReplay)
+							passwordReplayBlur(event, setLoginError, password)
 						}
 					/>
 					<button
 						className={styles.buttonOfForm}
 						type="submit"
 						disabled={!flagDisable}
+						ref={submitButtonRef}
 					>
 						Зарегистрироваться
 					</button>

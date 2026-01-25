@@ -1,2 +1,2 @@
-export * from './onChange'
-export * from './onEmailChange'
+export * from './onChange';
+export * from './onEmailChange';
