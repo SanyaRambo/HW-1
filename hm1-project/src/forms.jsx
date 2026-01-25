@@ -10,6 +10,7 @@ const Forms = () => {
 		register,
 		handleSubmit,
 		formState: { isValid, errors },
+		getValues
 	} = useForm({
 		defaultValues: {
 			email: '',
@@ -22,12 +23,8 @@ const Forms = () => {
 
 	const submitButtonRef = useRef(null);
 
-	const sendFormData = (formData) => {
-		console.log(formData);
-	};
-
-	const onSubmit = ({ email, password, passwordReplay }) => {
-		sendFormData({ email, password, passwordReplay });
+	const onSubmit = () => {
+		console.log(getValues())
 	};
 
 	useEffect(() => {
