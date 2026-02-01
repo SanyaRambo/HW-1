@@ -1,17 +1,29 @@
 import PropTypes from "prop-types";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import styles from "./app.module.css";
 
 
 const App = () => {
+	const [todos, setTodos] = useState([]);
 
-	const [value, setValue] = useState('')
+	useEffect(() => {
+		fetch('https://jsonplaceholder.typicode.com/todos')
+		.then((todos) => todos.json())
+		.then((todos) => {
+			setTodos(todos)
+			console.log(todos)
+		})
+	}, [])
 
 	return (
 		<>
-		<h1>Контролируемые и неконтролируемые поля</h1>
 		<div>
-			<input type="text" value={value} onChange={({target}) => setValue(target.value)} className={styles.inputOne} />
+			<ul>
+				{ todos.map(({id, title}) => (
+					<li key={id} className={styles.listTodo}>{title}</li>
+			))}
+			</ul>
+
 		</div>
 		</>
 	)
