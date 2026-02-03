@@ -11,15 +11,12 @@
 	display: flex;
 	flex-direction: column;
 	background-color: #3e3e3e;
-	border-top-right-radius: 1rem;
 	border: 0.1rem solid rgb(179, 179, 179);
 }
 
 .containerHeader {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 30rem;
+	justify-self: left;
 }
 .headerTodos {
 	background-color: rgb(28, 28, 28);
@@ -74,6 +71,13 @@ form {
 
 .todo:focus {
 	outline: none;
+	background-color: #5e5e5e;
+	border-radius: 1rem;
+}
+
+.todo:hover {
+	background-color: #5e5e5e;
+	border-radius: 1rem;
 }
 
 .buttonTodo {
@@ -98,16 +102,4 @@ form {
 
 .updateTodo:hover {
 	background-color: rgb(15, 164, 164);
-}
-
-.sortListTodos {
-	border-radius: 5rem;
-	height: 3.6rem;
-	width: 9rem;
-	font-size: 1rem;
-	background-color: #202020;
-}
-
-.sortListTodos:hover {
-	background-color: #404040;
 }
