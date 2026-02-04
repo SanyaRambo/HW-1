@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { ref, push } from 'firebase/database'
+import { db } from '../firebase';
 
 export const useAddRequestTodo = (
 	todo,
-	setIsError,
-	refreshProducts,
-	setRefreshProducts,
+	setIsError
 ) => {
 	const [isCreate, setIsCreate] = useState(false);
 
@@ -18,23 +18,13 @@ export const useAddRequestTodo = (
 			setIsCreate(false);
 			return;
 		} else {
-			setIsCreate(true);
-			fetch('http://localhost:3000/todos', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json;charset=utf-8' },
-				body: JSON.stringify({
-					title: todo.trim(),
-				}),
+			const todosDbRef = ref(db, 'todos')
+
+			push(todosDbRef, {
+				title: todo.trim(),
 			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error(`ОШИБКА: ${response.status}`);
-					}
-					return response.json();
-				})
 				.then((todo) => {
 					console.log('Новая задача добавлена:', todo);
-					setRefreshProducts(!refreshProducts);
 				})
 				.catch((error) =>
 					setIsError({ errorStatus: true, message: `ОШИБКА: ${error}` }),

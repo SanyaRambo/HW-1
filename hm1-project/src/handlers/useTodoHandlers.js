@@ -18,9 +18,21 @@ export const useTodoHandlers = ({
 	);
 
 	const handlerClickSort = useCallback(() => {
-		const sortedTodos = [...todos].sort((a, b) =>
-			a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
-		);
+		if (!todos) return;
+
+		const entries = Object.entries(todos);
+
+		const todosWithKeys = entries.map(([key, todo]) => ({
+			...todo,
+			id: key,
+		}));
+
+		const sortedTodos = todosWithKeys.sort((a, b) => {
+			const aTitle = a.title.toLowerCase();
+			const bTitle = b.title.toLowerCase();
+			return aTitle.localeCompare(bTitle);
+		});
+
 		setTodos(sortedTodos);
 	}, [todos, setTodos]);
 
@@ -36,6 +48,15 @@ export const useTodoHandlers = ({
 	const editingTodo = useCallback(
 		(event, updateTodo, id) => {
 			event.preventDefault();
+
+			if (
+				!updateTodo ||
+				typeof updateTodo !== 'string' ||
+				updateTodo.trim() === ''
+			) {
+				console.error('Некорректное значение updateTodo:', updateTodo);
+				return;
+			}
 			setUpdateTodo('');
 			setUpdateTodoId(null);
 			updateRequestTodo(id, updateTodo);
@@ -50,4 +71,3 @@ export const useTodoHandlers = ({
 		editingTodo,
 	};
 };
-

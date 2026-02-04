@@ -23,15 +23,24 @@ export const FormList = ({
 			if (!todo) {
 				setFilteredTodos(todos);
 			} else {
-				const result = todos.filter((todoItem) =>
-					todoItem.title.toLowerCase().includes(todo.toLowerCase()),
-				);
-				setFilteredTodos(result);
+				const entries = Object.entries(todos);
+
+				const filteredEntries =
+					entries.filter(([key, todoItem]) => {
+						return (
+							todoItem.title &&
+							todoItem.title.toLowerCase().includes(todo.toLowerCase())
+						);
+					})
+
+
+				const filteredObject = Object.fromEntries(filteredEntries);
+
+				setFilteredTodos(filteredObject);
 			}
-		}, 500);
+		}, 0);
 
 		delayedFilter();
-
 
 		return delayedFilter.clear;
 	}, [todo, todos]);

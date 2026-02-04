@@ -1,28 +1,25 @@
 import { useEffect, useState } from 'react';
+import {ref, onValue} from 'firebase/database'
+import { db } from '../firebase';
 
-export const useGetRequestTodos = (refreshProducts) => {
-	const [todos, setTodos] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+export const useGetRequestTodos = () => {
+	const [todos, setTodos] = useState({});
+	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState({
 		errorStatus: false,
 		message: '',
 	});
 	useEffect(() => {
-			setIsLoading(true);
+		const todosDbRef = ref(db, 'todos');
+
+		return onValue(todosDbRef, (snapshot) => {
+			const loadedTodos = snapshot.val() || {}
+			setTodos(loadedTodos)
 			setIsError({ ...isError, errorStatus: false });
-			fetch('http://localhost:3000/todos')
-				.then((todos) => todos.json())
-				.then((todos) => {
-					setTodos(todos);
-					console.log(todos);
-				})
-				.catch((error) =>
-					setIsError({ errorStatus: true, message: `ОШИБКА: ${error}` }),
-				)
-				.finally(() => {
-					setIsLoading(false);
-				});
-		}, [refreshProducts]);
+			setIsLoading(false)
+		} );
+
+		}, []);
 
 	return {todos, isLoading, isError, setIsError, setTodos}
 };

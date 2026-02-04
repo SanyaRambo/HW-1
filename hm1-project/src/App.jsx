@@ -17,9 +17,7 @@ const App = () => {
 	const [updateTodo, setUpdateTodo] = useState('');
 	const [updateTodoId, setUpdateTodoId] = useState(null);
 
-
-	const { isLoading, isError, setIsError, todos, setTodos } =
-		useGetRequestTodos(refreshProducts);
+	const { isLoading, isError, setIsError, todos, setTodos } = useGetRequestTodos();
 	const { isCreate, addRequestTodo } = useAddRequestTodo(
 		todo,
 		setIsError,
@@ -37,7 +35,6 @@ const App = () => {
 		refreshProducts,
 	);
 
-
 	const { handlerClickDelete, handlerClickSort, submitTodoToDateBase, editingTodo } =
 		useTodoHandlers({
 			setTodo,
@@ -50,7 +47,6 @@ const App = () => {
 			todos,
 		});
 
-		
 	return (
 		<>
 			<div>
@@ -62,7 +58,7 @@ const App = () => {
 							style={styles.sortListTodos}
 							onClick={handlerClickSort}
 						>
-							Сортировать ▤
+							Сортировать А↓
 						</Button>
 					</div>
 					<FormHeader

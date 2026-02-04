@@ -1,46 +1,35 @@
 import { useState } from 'react';
+import { ref, set } from 'firebase/database';
+import { db } from '../firebase';
 
-export const useUpdateRequestTodo = (setIsError,
-		setRefreshProducts, refreshProducts) => {
-const [isUpdate, setIsUpdate] = useState(false)
+export const useUpdateRequestTodo = (setIsError) => {
+	const [isUpdate, setIsUpdate] = useState(false);
 
-	const updateRequestTodo = (id, updateTodo) => {
-		if (updateTodo === '') {
+	const updateRequestTodo = (updateTodoId, updateTodo) => {
+		if (!updateTodo || typeof updateTodo !== 'string' || updateTodo.trim() === '') {
 			setIsError({
 				errorStatus: true,
-				message:
-					'ОШИБКА. Задача не может быть пустой',
+				message: 'ОШИБКА. Задача не может быть пустой',
 			});
 			setIsUpdate(false);
 			return;
 		} else {
-			setIsUpdate(true)
+			setIsUpdate(true);
 
-		fetch(`http://localhost:3000/todos/${id}`, {
-			method: 'PUT',
-			headers: { 'Content-Type': 'application/json;charset=utf-8' },
-			body: JSON.stringify({
-					title: updateTodo.trim(),
-				})
-				})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error(`ОШИБКА: ${response.status}`);
-					}
-					return response.json();
-				})
-				.then((updateTodo) => {
-					console.log('Задача обновлена:', updateTodo);
-					setRefreshProducts(!refreshProducts);
+			const updateTodoDbRef = ref(db, `todos/${updateTodoId}`);
+			set(updateTodoDbRef, {
+				title: updateTodo.trim(),
+			})
+				.then(() => {
+					console.log(`Задача обновлена`);
 				})
 				.catch((error) =>
 					setIsError({ errorStatus: true, message: `ОШИБКА: ${error}` }),
 				)
 				.finally(() => {
 					setIsUpdate(false);
-				})
+				});
 		}
-
 	};
-	return {isUpdate, updateRequestTodo}
+	return { isUpdate, updateRequestTodo };
 };

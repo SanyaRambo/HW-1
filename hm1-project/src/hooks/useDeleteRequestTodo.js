@@ -1,24 +1,19 @@
 import { useState } from 'react';
+import { ref, remove } from 'firebase/database';
+import { db } from '../firebase';
 
-export const useDeleteRequestTodo = (setIsError,
-		setRefreshProducts, refreshProducts) => {
+export const useDeleteRequestTodo = (setIsError) => {
 const [isDelete, setIsDelete] = useState(false)
 
 	const deleteRequestTodo = (id) => {
 			setIsDelete(true)
 
-		fetch(`http://localhost:3000/todos/${id}`, {
-			method: 'DELETE',
-				})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error(`ОШИБКА: ${response.status}`);
-					}
-					return response.json();
-				})
-				.then((response) => {
-					console.log(`Задача удалена: ${response}`);
-					setRefreshProducts(!refreshProducts);
+			const deleteTodoDbRef = ref(db, `todos/${id}`)
+
+			remove(deleteTodoDbRef)
+
+				.then(() => {
+					console.log(`Задача удалена:`);
 				})
 				.catch((error) =>
 					setIsError({ errorStatus: true, message: `ОШИБКА: ${error}` }),

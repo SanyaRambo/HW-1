@@ -16,6 +16,7 @@ export const FormListLayout = ({
 	isDelete,
 	filteredTodos
 }) => {
+	
 	return (
 		<>
 			<div className={styles.listOfTodos}>
@@ -27,7 +28,7 @@ export const FormListLayout = ({
 				)}
 
 				{!isLoading &&
-					filteredTodos.map(({ id, title }) => (
+					Object.entries(filteredTodos).map(([id, {title}]) => (
 						<form
 							action=""
 							key={id}
