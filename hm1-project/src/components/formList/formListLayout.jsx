@@ -1,21 +1,21 @@
 import styles from './formList.module.css';
 import { ContainerButtonsOfList } from '../buttons/containerOfButtonsOfList';
+import { use } from 'react';
+import { AppContext } from '../../context';
 
-export const FormListLayout = ({
-	isLoading,
-	isError,
-	editingTodo,
-	updateTodo,
-	updateTodoId,
-	setUpdateTodoId,
-	setUpdateTodo,
-	submitUpdateTodo,
-	handlerClickUpdate,
-	isUpdate,
-	handlerClickDelete,
-	isDelete,
-	filteredTodos
-}) => {
+export const FormListLayout = ({submitUpdateTodo, handlerClickUpdate, filteredTodos}) => {
+	const {
+		editingTodo,
+		updateTodo,
+		updateTodoId,
+		setUpdateTodo,
+		setUpdateTodoId,
+		isUpdate,
+		isDelete,
+		isLoading,
+		isError,
+		handlerClickDelete,
+	} = use(AppContext);
 	return (
 		<>
 			<div className={styles.listOfTodos}>

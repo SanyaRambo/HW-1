@@ -1,13 +1,11 @@
 import styles from './formHeader.module.css';
 import { ContainerButtonsOfHeader } from '../buttons/containerButtonsOfHeader';
 
-
 export const FormHeader = ({ submitTodoToDateBase, todo, setTodo, isCreate }) => {
 	const handlerClickResetInput = (event) => {
 		event.preventDefault();
 		setTodo('');
 	};
-
 
 	return (
 		<>

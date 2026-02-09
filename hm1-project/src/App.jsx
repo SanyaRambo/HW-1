@@ -10,13 +10,13 @@ import {
 } from './hooks';
 import { useTodoHandlers } from './handlers/useTodoHandlers';
 import { useState } from 'react';
+import { AppContext } from './context';
 
 const App = () => {
 	const [refreshProducts, setRefreshProducts] = useState(false);
 	const [todo, setTodo] = useState('');
 	const [updateTodo, setUpdateTodo] = useState('');
 	const [updateTodoId, setUpdateTodoId] = useState(null);
-
 
 	const { isLoading, isError, setIsError, todos, setTodos } =
 		useGetRequestTodos(refreshProducts);
@@ -37,7 +37,6 @@ const App = () => {
 		refreshProducts,
 	);
 
-
 	const { handlerClickDelete, handlerClickSort, submitTodoToDateBase, editingTodo } =
 		useTodoHandlers({
 			setTodo,
@@ -50,7 +49,6 @@ const App = () => {
 			todos,
 		});
 
-		
 	return (
 		<>
 			<div>
@@ -71,24 +69,26 @@ const App = () => {
 						setTodo={setTodo}
 						isCreate={isCreate}
 					/>
-					<FormList
-						todos={todos}
-						todo={todo}
-						editingTodo={editingTodo}
-						editingState={{
+					<AppContext
+						value={{
+							todos,
+							todo,
+							editingTodo,
 							updateTodo,
 							updateTodoId,
 							setUpdateTodo,
 							setUpdateTodoId,
-						}}
-						operationStatus={{
+
 							isUpdate,
 							isDelete,
 							isLoading,
 							isError,
+
+							handlerClickDelete,
 						}}
-						handlerClickDelete={handlerClickDelete}
-					/>
+					>
+						<FormList />
+					</AppContext>
 				</div>
 			</div>
 		</>
