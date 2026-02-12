@@ -1,32 +1,36 @@
-import PropTypes from 'prop-types';
 import styles from './information.module.css';
+import { InformationLayout } from './inforamationLayout';
+import { store } from '../../store';
+import { useEffect, useState } from 'react';
 
-export const Information = ({
-	arrayStateInformation,
-	field,
-	currentPlayer,
-	setCurrentPlayer,
-	setIsDraw,
-	isDraw,
-	setIsGameEnded,
-	isGameEnded,
-	winnerPatternParent,
-	setField,
-	score,
-}) => {
+export const Information = () => {
+	const {getState, dispatch, subscribe} = store;
+	const [state, setState] = useState(getState())
+
+	useEffect(() => {
+		const listener = () => {
+			setState(getState())
+		}
+
+		const unsubscribe = subscribe(listener)
+
+		return unsubscribe
+	}, [])
+
 	const motionZeroOrX = () => {
 		return (
 			<p
-				className={`${currentPlayer === 'X' ? styles.x : currentPlayer === 'O' ? styles.zero : ''} ${styles.symbolMotion}`}
+				className={`${state.currentPlayer === 'X' ? styles.x : state.currentPlayer === 'O' ? styles.zero : ''} ${styles.symbolMotion}`}
 			>
-				{currentPlayer}
+				{state.currentPlayer}
 			</p>
 		);
 	};
 
 	const winner = () => {
-		if (winnerPatternParent) {
-			const symbolWin = field[winnerPatternParent[0]];
+		if (state.winnerPatternParent) {
+			const symbolWin = state.field[state.winnerPatternParent[0]];
+			console.log(symbolWin)
 			return (
 				<p
 					className={`${symbolWin === 'X' ? styles.x : symbolWin === 'O' ? styles.zero : ''} ${styles.symbolMotion}`}
@@ -39,28 +43,32 @@ export const Information = ({
 		}
 	};
 
+	console.log(winner())
+
 	const handleClickStartAgain = () => {
-		setIsDraw(false);
-		setIsGameEnded(false);
-		setField(['', '', '', '', '', '', '', '', '']);
-		setCurrentPlayer('X');
+		dispatch({ type: 'RESTART_GAME'});
+
 	};
 
+
 	const scoreX = () => {
-		return `${score.X.win}/${score.X.lose}/${score.X.draw}`;
+		return `${state.score.X.win}/${state.score.X.lose}/${state.score.X.draw}`;
 	};
 
 	const scoreO = () => {
-		return `${score.O.win}/${score.O.lose}/${score.O.draw}`;
+		return `${state.score.O.win}/${state.score.O.lose}/${state.score.O.draw}`;
 	};
+
+	console.log('ИКС', state.score.X,'Нолик',state.score.O)
+
+
 	return (
 		<>
 			<InformationLayout
-				arrayStateInformation={arrayStateInformation}
 				motionZeroOrX={motionZeroOrX}
-				isGameEnded={isGameEnded}
+				isGameEnded={state.isGameEnded}
 				winner={winner}
-				isDraw={isDraw}
+				isDraw={state.isDraw}
 				handleClickStartAgain={handleClickStartAgain}
 				scoreX={scoreX}
 				scoreO={scoreO}
@@ -69,48 +77,3 @@ export const Information = ({
 	);
 };
 
-export const InformationLayout = ({
-	winner,
-	motionZeroOrX,
-	isGameEnded,
-	isDraw,
-	handleClickStartAgain,
-	scoreX,
-	scoreO,
-}) => {
-	return (
-		<>
-			<div>
-				<div className={styles.information}>
-					<div>
-						<h1 className={`${styles.symbol} ${styles.x}`}>Х</h1>
-						<h2 className={styles.xText}>КРЕСТИК</h2>
-						<h2 className={styles.xText}>{scoreX()}</h2>
-					</div>
-					{(isDraw || isGameEnded) && (
-						<button
-							className={styles.restart}
-							onClick={handleClickStartAgain}
-						>
-							НАЧАТЬ ЗАНОВО!
-						</button>
-					)}
-					<div>
-						<h1 className={`${styles.symbol} ${styles.zero}`}>О</h1>
-						<h2 className={styles.zeroText}>НОЛИК</h2>
-						<h2 className={styles.zeroText}>{scoreO()}</h2>
-					</div>
-				</div>
-				<h1 className={`${styles.textOfField} ${styles.motion}`}>
-					{isGameEnded && !isDraw ? (
-						<>ПОБЕДА {winner()}!</>
-					) : isDraw && isGameEnded ? (
-						'НИЧЬЯ!'
-					) : (
-						<>Ход: {motionZeroOrX()}</>
-					)}
-				</h1>
-			</div>
-		</>
-	);
-};

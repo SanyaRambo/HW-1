@@ -1,29 +1,31 @@
-import PropTypes from 'prop-types';
+import { FieldLayout } from './fieldLayout';
 import styles from './field.module.css';
+import { store } from '../../store';
+import { useEffect, useState } from 'react';
 
-export const Field = ({
-	field,
-	setField,
-	currentPlayer,
-	setCurrentPlayer,
-	WIN_PATTERNS,
-	setIsGameEnded,
-	setIsDraw,
-	setWinnerPatternParent,
-	winnerPatternParent,
-	isDraw,
-	isGameEnded,
-	setScore,
-}) => {
+export const Field = () => {
+	const { getState, dispatch, subscribe } = store;
+	const [state, setState] = useState(getState());
+
+	useEffect(() => {
+		const listener = () => {
+			setState(getState());
+		};
+
+		const unsubscribe = subscribe(listener);
+
+		return unsubscribe;
+	}, []);
+
 	const handleClickOnCellOfField = (index) => {
-		const newField = [...field];
-		if (field[index] === '') {
-			newField.splice(index, 1, currentPlayer);
-			setField(newField);
-			setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
+		const newField = [...state.field];
+		if (state.field[index] === '') {
+			newField.splice(index, 1, state.currentPlayer);
+			dispatch({ type: 'SET_CURRENT_PLAYER', payload: state.currentPlayer });
+			dispatch({ type: 'SET_FIELD', payload: newField });
 		}
 
-		const winnerPattern = WIN_PATTERNS.find((pattern) => {
+		const winnerPattern = state.WIN_PATTERNS.find((pattern) => {
 			const firstValue = newField[pattern[0]];
 			return (
 				firstValue !== '' &&
@@ -37,38 +39,46 @@ export const Field = ({
 			);
 		});
 
-		setWinnerPatternParent(winnerPattern === undefined ? null : winnerPattern);
+		dispatch({
+			type: 'DETERMINE_THE_WINNING_PATTERN',
+			payload: winnerPattern === undefined ? null : winnerPattern,
+		});
 
 		if (winnerPattern) {
 			const symbolWin = newField[winnerPattern[0]];
-			setIsGameEnded(true);
+			dispatch({ type: 'SET_STATUS_ENDING_GAME', payload: true });
 			if (symbolWin === 'X') {
-				setScore((scor) => ({
-					...scor,
-					X: { ...scor.X, win: scor.X.win + 1 },
-					O: { ...scor.O, lose: scor.O.lose + 1 },
-				}));
+				dispatch({
+					type: 'SET_SCORE',
+					payload: {
+						X: { ...state.score.X, win: state.score.X.win + 1 },
+						O: { ...state.score.O, lose: state.score.O.lose + 1 },
+					},
+				});
 			} else if (symbolWin === 'O') {
-				setScore((scor) => ({
-					...scor,
-					O: { ...scor.O, win: scor.O.win + 1 },
-					X: { ...scor.X, lose: scor.X.lose + 1 },
-				}));
+				dispatch({
+					type: 'SET_SCORE',
+					payload: {
+						X: { ...state.score.X, lose: state.score.X.lose + 1 },
+						O: { ...state.score.O, win: state.score.O.win + 1 },
+					},
+				});
 			}
 		} else if (
 			newField.every((cell) => {
 				return cell !== '';
 			})
 		) {
-			setIsGameEnded(true);
-			setIsDraw(true);
-			setWinnerPatternParent(null);
-
-			setScore((scor) => ({
-				...scor,
-				X: { ...scor.X, draw: scor.X.draw + 1 },
-				O: { ...scor.O, draw: scor.O.draw + 1 },
-			}));
+			dispatch({ type: 'SET_STATUS_ENDING_GAME', payload: true });
+			dispatch({ type: 'SET_STATUS_DRAWING_GAME', payload: true });
+			dispatch({ type: 'DETERMINE_THE_WINNING_PATTERN', payload: null });
+			dispatch({
+				type: 'SET_SCORE',
+				payload: {
+					X: { ...state.score.X, draw: state.score.X.draw + 1 },
+					O: { ...state.score.O, draw: state.score.O.draw + 1 },
+				},
+			});
 		}
 	};
 
@@ -85,41 +95,14 @@ export const Field = ({
 	return (
 		<>
 			<FieldLayout
-				field={field}
-				setField={setField}
-				isGameEnded={isGameEnded}
-				isDraw={isDraw}
+				field={state.field}
+				isGameEnded={state.isGameEnded}
+				isDraw={state.isDraw}
 				handleClickOnCellOfField={handleClickOnCellOfField}
 				symbolOnField={symbolOnField}
-				winnerPatternParent={winnerPatternParent}
+				winnerPatternParent={state.winnerPatternParent}
+				currentPlayer={state.currentPlayer}
 			/>
-		</>
-	);
-};
-
-export const FieldLayout = ({
-	field,
-	handleClickOnCellOfField,
-	currentPlayer,
-	symbolOnField,
-	isGameEnded,
-	isDraw,
-	winnerPatternParent,
-}) => {
-	return (
-		<>
-			<div className={styles.field}>
-				{field.map((cell, index) => (
-					<button
-						key={index}
-						className={`${styles.cell} ${currentPlayer === 'X' ? styles.buttonX : currentPlayer === 'O' ? styles.buttonZero : ''} ${isGameEnded && winnerPatternParent && winnerPatternParent?.includes(index) ? styles.winner : ''}`}
-						onClick={() => handleClickOnCellOfField(index)}
-						disabled={isGameEnded || isDraw}
-					>
-						{symbolOnField(cell)}
-					</button>
-				))}
-			</div>
 		</>
 	);
 };

@@ -10,7 +10,6 @@
 }
 
 .cell {
-	border-radius: 0px;
 	margin: 2px;
 	width: 100px;
 	height: 100px;
@@ -19,22 +18,60 @@
 	display: flex;
 }
 
+.cell:hover {
+	background-color: rgb(63, 80, 115);
+	border: 0.1rem solid rgba(255, 255, 255, 0.248);
+	border-radius: 0.1rem;
+}
+
+.cell:active {
+	border: 0.1rem solid rgba(248, 248, 248, 0.767);
+	border-radius: 0.1rem;
+	box-shadow: 1px 1px 5px rgb(217, 217, 228);
+}
+
 .buttonX {
 	border: 2px solid transparent;
 }
 
 .buttonZero {
-	 border: 2px solid transparent;
+border: 2px solid transparent;
   transition: border-color 0.3s ease;
   box-sizing: border-box;
 }
 
 .buttonZero:hover {
-	border: 15px solid #000dff;
+	border: 1px solid #393fff;
+	border-radius: 5px;
+	box-shadow: 1px 1px 10px rgb(30, 0, 255);
+}
+
+.buttonZero:active {
+	border: 1px solid #6469ff;
+	border-radius: 5px;
+	box-shadow: 1px 1px 15px rgb(66, 41, 255);
 }
 
 .buttonX:hover {
-	 border: 15px solid red;
+	border: 1px solid rgb(255, 49, 49);
+	border-radius: 5px;
+	box-shadow: 1px 1px 10px rgb(255, 0, 0);
+}
+
+.buttonX:active {
+	border: 1px solid rgb(255, 78, 78);
+	border-radius: 5px;
+	box-shadow: 1px 1px 15px rgb(255, 34, 34);
+}
+
+.buttons {
+	border: 0px;
+}
+
+.buttons:hover {
+	border: 1px solid rgb(255, 255, 255);
+	border-radius: 5px;
+	box-shadow: 1px 1px 10px rgb(255, 255, 255);
 }
 
 .field > .cell:nth-child(1),
@@ -100,5 +137,9 @@ button {
 
 .winner {
 	background-color: rgb(0, 255, 0);
-	box-shadow: 0px 0px 10px rgb(0, 255, 4);;
+	box-shadow: 0px 0px 10px rgb(0, 255, 4);
+}
+
+.winner:hover {
+	background-color: rgb(64, 251, 64);
 }
