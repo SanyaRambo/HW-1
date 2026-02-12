@@ -15,7 +15,7 @@ export const Information = () => {
 		const unsubscribe = subscribe(listener)
 
 		return unsubscribe
-	}, [])
+	}, [getState, subscribe])
 
 	const motionZeroOrX = () => {
 		return (

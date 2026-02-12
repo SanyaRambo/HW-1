@@ -15,7 +15,7 @@ export const Field = () => {
 		const unsubscribe = subscribe(listener);
 
 		return unsubscribe;
-	}, []);
+	}, [getState, subscribe]);
 
 	const handleClickOnCellOfField = (index) => {
 		const newField = [...state.field];
