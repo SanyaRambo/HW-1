@@ -28,22 +28,38 @@ export const gameReducer = (state = initialState, action) => {
 			return { ...state, field: payload };
 		}
 		case 'SET_CURRENT_PLAYER':
-			return { ...state, currentPlayer: payload === 'X' ? 'O' : 'X'};
+			return { ...state, currentPlayer: payload === 'X' ? 'O' : 'X' };
 
 		case 'SET_STATUS_ENDING_GAME': {
 			return { ...state, isGameEnded: payload };
 		}
 		case 'SET_STATUS_DRAWING_GAME': {
-			return {...state, isDraw: payload};
+			return { ...state, isDraw: payload };
 		}
 		case 'RESTART_GAME':
-			return {...initialState, score: state.score};
+			return { ...initialState, score: state.score };
 		case 'DETERMINE_THE_WINNING_PATTERN':
-			return { ...state, winnerPatternParent: payload };
-		case 'SET_SCORE':
 			return {
-				...state, score: payload
+				...state,
+				winnerPatternParent: payload === undefined ? null : payload,
 			};
+		case 'SET_SCORE': {
+			const { winner } = payload;
+			const newScore = { ...state.score };
+
+			if (winner === 'X') {
+				newScore.X.win += 1;
+				newScore.O.lose += 1;
+			} else if (winner === 'O') {
+				newScore.O.win += 1;
+				newScore.X.lose += 1;
+			} else if (winner === null) {
+				newScore.X.draw += 1;
+				newScore.O.draw += 1;
+			}
+
+			return { ...state, score: newScore };
+		}
 		default:
 			return state;
 	}

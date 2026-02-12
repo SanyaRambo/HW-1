@@ -41,29 +41,13 @@ export const Field = () => {
 
 		dispatch({
 			type: 'DETERMINE_THE_WINNING_PATTERN',
-			payload: winnerPattern === undefined ? null : winnerPattern,
+			payload: winnerPattern
 		});
 
 		if (winnerPattern) {
 			const symbolWin = newField[winnerPattern[0]];
 			dispatch({ type: 'SET_STATUS_ENDING_GAME', payload: true });
-			if (symbolWin === 'X') {
-				dispatch({
-					type: 'SET_SCORE',
-					payload: {
-						X: { ...state.score.X, win: state.score.X.win + 1 },
-						O: { ...state.score.O, lose: state.score.O.lose + 1 },
-					},
-				});
-			} else if (symbolWin === 'O') {
-				dispatch({
-					type: 'SET_SCORE',
-					payload: {
-						X: { ...state.score.X, lose: state.score.X.lose + 1 },
-						O: { ...state.score.O, win: state.score.O.win + 1 },
-					},
-				});
-			}
+			dispatch({ type: 'SET_SCORE', payload: { winner: symbolWin } });
 		} else if (
 			newField.every((cell) => {
 				return cell !== '';
@@ -72,13 +56,7 @@ export const Field = () => {
 			dispatch({ type: 'SET_STATUS_ENDING_GAME', payload: true });
 			dispatch({ type: 'SET_STATUS_DRAWING_GAME', payload: true });
 			dispatch({ type: 'DETERMINE_THE_WINNING_PATTERN', payload: null });
-			dispatch({
-				type: 'SET_SCORE',
-				payload: {
-					X: { ...state.score.X, draw: state.score.X.draw + 1 },
-					O: { ...state.score.O, draw: state.score.O.draw + 1 },
-				},
-			});
+			dispatch({ type: 'SET_SCORE', payload: { winner: null } });
 		}
 	};
 
