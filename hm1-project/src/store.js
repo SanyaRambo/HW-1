@@ -21,3 +21,8 @@ const createStore = (reducer) => {
 	};
 };
 export const store = createStore(gameReducer);
+
+// Изменить store,
+// Разбить reducer на два reducer, то есть на reducerInformation и reducerField, объединить их в combineReducers
+// Вынести action тоже в функции
+// Для обновления состояния использовать селекторы, диспатчи для отправки
