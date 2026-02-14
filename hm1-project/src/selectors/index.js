@@ -1,0 +1,7 @@
+export * from './selecotor-field'
+export * from './selector-current-player'
+export * from './selector-draw'
+export * from './selector-game-ended'
+export * from './selector-score'
+export * from './selector-WIN-PATTERNS'
+export * from './selector-winner-pattern-parrent'

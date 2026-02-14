@@ -1,35 +1,31 @@
 import styles from './information.module.css';
 import { InformationLayout } from './inforamationLayout';
-import { store } from '../../store';
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { selectCurrentPlayer, selectField, selectIsDraw, selectIsGameEnded, selectScore, selectWinnerPatternParent } from '../../selectors';
+import { RESET_GAME } from '../../actions';
 
 export const Information = () => {
-	const {getState, dispatch, subscribe} = store;
-	const [state, setState] = useState(getState())
-
-	useEffect(() => {
-		const listener = () => {
-			setState(getState())
-		}
-
-		const unsubscribe = subscribe(listener)
-
-		return unsubscribe
-	}, [getState, subscribe])
+	const dispatch = useDispatch()
+	const winnerPatternParent = useSelector(selectWinnerPatternParent)
+	const currentPlayer = useSelector(selectCurrentPlayer)
+	const field = useSelector(selectField)
+	const score = useSelector(selectScore)
+	const isGameEnded = useSelector(selectIsGameEnded)
+	const isDraw = useSelector(selectIsDraw)
 
 	const motionZeroOrX = () => {
 		return (
 			<p
-				className={`${state.currentPlayer === 'X' ? styles.x : state.currentPlayer === 'O' ? styles.zero : ''} ${styles.symbolMotion}`}
+				className={`${currentPlayer === 'X' ? styles.x : currentPlayer === 'O' ? styles.zero : ''} ${styles.symbolMotion}`}
 			>
-				{state.currentPlayer}
+				{currentPlayer}
 			</p>
 		);
 	};
 
 	const winner = () => {
-		if (state.winnerPatternParent) {
-			const symbolWin = state.field[state.winnerPatternParent[0]];
+		if (winnerPatternParent) {
+			const symbolWin = field[winnerPatternParent[0]];
 			console.log(symbolWin)
 			return (
 				<p
@@ -46,29 +42,29 @@ export const Information = () => {
 	console.log(winner())
 
 	const handleClickStartAgain = () => {
-		dispatch({ type: 'RESTART_GAME'});
+		dispatch(RESET_GAME());
 
 	};
 
 
 	const scoreX = () => {
-		return `${state.score.X.win}/${state.score.X.lose}/${state.score.X.draw}`;
+		return `${score.X.win}/${score.X.lose}/${score.X.draw}`;
 	};
 
 	const scoreO = () => {
-		return `${state.score.O.win}/${state.score.O.lose}/${state.score.O.draw}`;
+		return `${score.O.win}/${score.O.lose}/${score.O.draw}`;
 	};
 
-	console.log('ИКС', state.score.X,'Нолик',state.score.O)
+	console.log('ИКС', score.X,'Нолик',score.O)
 
 
 	return (
 		<>
 			<InformationLayout
 				motionZeroOrX={motionZeroOrX}
-				isGameEnded={state.isGameEnded}
+				isGameEnded={isGameEnded}
 				winner={winner}
-				isDraw={state.isDraw}
+				isDraw={isDraw}
 				handleClickStartAgain={handleClickStartAgain}
 				scoreX={scoreX}
 				scoreO={scoreO}

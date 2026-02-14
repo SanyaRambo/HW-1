@@ -1,28 +1,12 @@
-import { gameReducer } from './reducer';
+import {createStore, combineReducers, compose, applyMiddleware } from 'redux'
+import { fieldReducer, informationReducer, sharedReducer } from './reducers';
 
-const createStore = (reducer) => {
-	let state = reducer(undefined, { type: '@@INIT' });
-	let listeners = [];
+const reducerOfGame = combineReducers({
+	fieldState: fieldReducer,
+	informationState: informationReducer,
+	sharedState: sharedReducer,
+})
 
-	return {
-		dispatch: (action) => {
-			if(!action || !action.type) return;
-			state = reducer(state, action);
-			console.log(state);
-			listeners.forEach(listener => listener())
-		},
-		getState: () => state,
-		subscribe: (listener) => {
-			listeners.push(listener);
-			return () => {
-				listeners = listeners.filter(l => l !== listener);
-			};
-		},
-	};
-};
-export const store = createStore(gameReducer);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// Изменить store,
-// Разбить reducer на два reducer, то есть на reducerInformation и reducerField, объединить их в combineReducers
-// Вынести action тоже в функции
-// Для обновления состояния использовать селекторы, диспатчи для отправки
+export const store = createStore(reducerOfGame, composeEnhancers(applyMiddleware()));
