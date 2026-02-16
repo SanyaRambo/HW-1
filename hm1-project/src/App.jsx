@@ -2,55 +2,25 @@ import styles from './app.module.css';
 import { FormHeader } from './components/formHeader';
 import { FormList } from './components/formList';
 import { Button } from './components/buttons/button';
-import {
-	useGetRequestTodos,
-	useAddRequestTodo,
-	useUpdateRequestTodo,
-	useDeleteRequestTodo,
-} from './hooks';
-import { useTodoHandlers } from './handlers/useTodoHandlers';
-import { useState } from 'react';
+import { useFetchTodosData } from './api-request/apiRequest';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectTodos } from './selectors';
+import { SORT_TODOS } from './actions';
 
 const App = () => {
-	const [refreshProducts, setRefreshProducts] = useState(false);
-	const [todo, setTodo] = useState('');
-	const [updateTodo, setUpdateTodo] = useState('');
-	const [updateTodoId, setUpdateTodoId] = useState(null);
+	useFetchTodosData();
 
+	const todos = useSelector(selectTodos);
 
-	const { isLoading, isError, setIsError, todos, setTodos } =
-		useGetRequestTodos(refreshProducts);
-	const { isCreate, addRequestTodo } = useAddRequestTodo(
-		todo,
-		setIsError,
-		refreshProducts,
-		setRefreshProducts,
-	);
-	const { isDelete, deleteRequestTodo } = useDeleteRequestTodo(
-		setIsError,
-		setRefreshProducts,
-		refreshProducts,
-	);
-	const { isUpdate, updateRequestTodo } = useUpdateRequestTodo(
-		setIsError,
-		setRefreshProducts,
-		refreshProducts,
-	);
+	const dispatch = useDispatch();
 
+	const handlerClickSort = () => {
+		const sortedTodos = [...todos].sort((a, b) =>
+			a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
+		);
+		dispatch(SORT_TODOS(sortedTodos));
+	};
 
-	const { handlerClickDelete, handlerClickSort, submitTodoToDateBase, editingTodo } =
-		useTodoHandlers({
-			setTodo,
-			addRequestTodo,
-			deleteRequestTodo,
-			updateRequestTodo,
-			setUpdateTodo,
-			setUpdateTodoId,
-			setTodos,
-			todos,
-		});
-
-		
 	return (
 		<>
 			<div>
@@ -65,30 +35,8 @@ const App = () => {
 							Сортировать ▤
 						</Button>
 					</div>
-					<FormHeader
-						submitTodoToDateBase={submitTodoToDateBase}
-						todo={todo}
-						setTodo={setTodo}
-						isCreate={isCreate}
-					/>
-					<FormList
-						todos={todos}
-						todo={todo}
-						editingTodo={editingTodo}
-						editingState={{
-							updateTodo,
-							updateTodoId,
-							setUpdateTodo,
-							setUpdateTodoId,
-						}}
-						operationStatus={{
-							isUpdate,
-							isDelete,
-							isLoading,
-							isError,
-						}}
-						handlerClickDelete={handlerClickDelete}
-					/>
+					<FormHeader />
+					<FormList />
 				</div>
 			</div>
 		</>

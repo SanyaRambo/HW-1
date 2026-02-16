@@ -1,13 +1,28 @@
 import styles from './formHeader.module.css';
 import { ContainerButtonsOfHeader } from '../buttons/containerButtonsOfHeader';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { selectIsCreate } from '../../selectors';
+import { SUBMIT_TODO } from '../../actions/submit.-todo';
+import { SET_IS_ERROR } from '../../actions';
 
-export const FormHeader = ({ submitTodoToDateBase, todo, setTodo, isCreate }) => {
+export const FormHeader = () => {
+	const dispatch = useDispatch();
+
+	const [todoLocal, setTodoLocal] = useState('');
+
+	const isCreate = useSelector(selectIsCreate);
 	const handlerClickResetInput = (event) => {
 		event.preventDefault();
-		setTodo('');
+		setTodoLocal('');
+		dispatch(SET_IS_ERROR())
 	};
-
+	const submitTodoToDateBase = (event) => {
+		event.preventDefault();
+		dispatch(SUBMIT_TODO(todoLocal));
+		setTodoLocal('');
+	};
 
 	return (
 		<>
@@ -16,8 +31,8 @@ export const FormHeader = ({ submitTodoToDateBase, todo, setTodo, isCreate }) =>
 					name="todo"
 					type="text"
 					placeholder="Добавь или найди задачу..."
-					value={todo}
-					onChange={(event) => setTodo(event.target.value)}
+					value={todoLocal}
+					onChange={(event) => setTodoLocal(event.target.value)}
 					className={styles.inputList}
 				/>
 				<ContainerButtonsOfHeader
